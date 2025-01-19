@@ -2,7 +2,7 @@
 
 from textblob import TextBlob
 
-def get_response(user_input, intent):
+def get_response(user_input, intent) -> str:
     input = user_input.lower()
 
     for key, value in intent.items():
@@ -10,7 +10,13 @@ def get_response(user_input, intent):
             if keyword in input:
                 return value["response"]
 
-    return None
+    sentiment_score = TextBlob(user_input).sentiment.polarity
+    if sentiment_score > 0:
+        return "I am happy to hear! Thanks for your positive feedback!"
+    elif sentiment_score < 0:
+        return "It sounds like you might have a concern. Please call us at (555) 123-4567 for further assistance and we would be happy to help!"
+    else:
+        return "I am hear to assist! Can you please clarify your query?"
 
 def main():
 
